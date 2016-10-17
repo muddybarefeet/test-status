@@ -40,7 +40,6 @@ class App extends React.Component {
         var newState;
 
         if (bool === true) {
-          console.log('passed',test)
           newState = this.state.tests.map( (t, i) => {
             if (i === index) {
               return {
@@ -52,7 +51,6 @@ class App extends React.Component {
             return t;
           });
         } else {
-          console.log('failed',test)
           newState = this.state.tests.map( (t, i) => {
             if (i === index) {
               return {
@@ -94,9 +92,11 @@ class App extends React.Component {
     };
 
     //sort the tests on each render
-    var data = this.state.tests.sort( (a,b) => {
-      if (a.status === b.status) return 0;
-    }).map( (test,index) => {
+    var items = [RUNNING,PASSED,FAILED];
+    var data = this.state.tests.slice().sort( (a,b) => {
+      return items.indexOf(a.status) > items.indexOf(b.status);
+    })
+    .map( (test,index) => {
       if (test.status === RUNNING) status.RUNNING++;
       if (test.status === PASSED) status.PASSED++;
       if (test.status === FAILED) status.FAILED++;
